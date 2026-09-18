@@ -1,0 +1,11 @@
+{
+  "name": "ultralife-node",
+  "version": "0.2.0",
+  "private": false,
+  "license": "Apache-2.0",
+  "description": "UltraLife protocol node: eUTxO engine, agent gateway, bioregion pools paid in ULTRA",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ryanultralife/ultralife-node.git"
+  }
+}

@@ -19,6 +19,8 @@ POST /api/protocol   {"op":"tools/call","name":"inspect_state","arguments":{}}
 POST /api/mcp        JSON-RPC
 ```
 
+This ledger is **demo-wasm**. `inspect_preprod` reads live Cardano preprod (Koios). Production signing is the wallet.
+
 Sequence: `boot_node` → `create_wallet` → `mint_pnft` → market / jobs / pools.
 
 ## What this node is

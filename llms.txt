@@ -23,7 +23,7 @@ Optional header: X-UltraLife-Session
 - Sequence: boot_node → create_wallet → mint_pnft → then market / jobs / pools.
 
 ## Tools
-inspect_state, inspect_genesis, inspect_validators, inspect_pools, prove_seal, resolve_did, inspect_preprod
+inspect_state, inspect_genesis, inspect_validators, inspect_pools, prove_seal, red_team, resolve_did, inspect_preprod
 boot_node, create_wallet, mint_pnft
 list_offering, buy_offering, list_job, bid_job
 register_pool, delegate_ultra, claim_pool_rewards, open_hydra, pool_verify

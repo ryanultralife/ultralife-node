@@ -34,6 +34,7 @@ import { BIOREGIONS, VALIDATOR_CATALOG } from "./data";
 import { identityDidDocument } from "./did";
 import { remainingBq } from "./isotope";
 import { canonicalTool, rewriteArgs } from "./aliases";
+import { fileSettlement, listSettlements } from "./settlements";
 import { inspectPreprod } from "./chain";
 import { assertContract, contractFor, TOOL_CONTRACTS } from "./contracts";
 
@@ -200,7 +201,7 @@ export const AGENT_TOOLS = [
     type: "function" as const,
     function: {
       name: "record_impact",
-      description: "Accrue chemical impact on the pNFT (CO2, H2O, CH4).",
+      description: "Accrue chemical impact on the pNFT (CO2, H2O, CH4). Not for sales tax.",
       parameters: {
         type: "object",
         properties: {
@@ -208,6 +209,44 @@ export const AGENT_TOOLS = [
           qty: { type: "number" },
         },
         required: ["compound", "qty"],
+      },
+    },
+  },
+  {
+    type: "function" as const,
+    function: {
+      name: "report_settlement",
+      description:
+        "File a CoopCart settlement for tax and the protocol fee split (50% UBI, 30% validators, 20% treasury). A node-side book. Does not spend a validator and does not move ADA. Cardano payment is a separate transaction.",
+      parameters: {
+        type: "object",
+        properties: {
+          kind: { type: "string" },
+          event: { type: "string", enum: ["settled", "shortfall", "cancelled"] },
+          order_id: { type: "string" },
+          store_slug: { type: "string" },
+          payment_method: { type: "string", enum: ["cardano", "card", "pay_at_pickup"] },
+          jurisdiction: { type: "string" },
+          subtotal_cents: { type: "number" },
+          tax_cents: { type: "number" },
+          fee_cents: { type: "number" },
+          fee_bps: { type: "number" },
+          cashback_cents: { type: "number" },
+          platform_cents: { type: "number" },
+          refund_due_cents: { type: "number" },
+        },
+        required: ["order_id", "store_slug", "payment_method", "platform_cents", "fee_cents"],
+      },
+    },
+  },
+  {
+    type: "function" as const,
+    function: {
+      name: "list_settlements",
+      description: "Read CoopCart settlement filings on this node. Optional store_slug filter.",
+      parameters: {
+        type: "object",
+        properties: { store_slug: { type: "string" } },
       },
     },
   },
@@ -626,6 +665,31 @@ export async function executeTool(
       const compound = String(args.compound ?? "CO2").toUpperCase();
       const qty = Number(args.qty ?? 1);
       return fromEngine(before, await recordImpact(state, compound, qty), `Recorded ${qty} ${compound}.`);
+    }
+    case "report_settlement": {
+      try {
+        const row = fileSettlement(args);
+        return {
+          ok: true,
+          summary: JSON.stringify({
+            ok: true,
+            id: row.id,
+            event: row.event,
+            order_id: row.order_id,
+            jurisdiction: row.jurisdiction,
+            tax_cents: row.tax_cents,
+            refund_due_cents: row.refund_due_cents,
+            fee_allocation: row.fee_allocation,
+          }),
+          next: state,
+        };
+      } catch (e) {
+        return { ok: false, summary: e instanceof Error ? e.message : "report rejected", next: state };
+      }
+    }
+    case "list_settlements": {
+      const rows = listSettlements(args.store_slug ? String(args.store_slug) : undefined);
+      return { ok: true, summary: JSON.stringify({ count: rows.length, reports: rows }), next: state };
     }
     case "register_land": {
       const label = String(args.label ?? "Parcel").slice(0, 48);

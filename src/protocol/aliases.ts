@@ -21,6 +21,8 @@ export const TOOL_ALIASES: Record<string, string> = {
   list_pnfts: "inspect_state",
   get_token_balance: "inspect_state",
   build_transfer_tokens: "send_ada",
+  file_tax: "report_settlement",
+  report_tax: "report_settlement",
 };
 
 export function canonicalTool(name: string) {

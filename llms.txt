@@ -28,6 +28,7 @@ boot_node, create_wallet, mint_pnft
 list_offering, buy_offering, list_job, bid_job
 register_pool, delegate_ultra, claim_pool_rewards, open_hydra, pool_verify
 claim_ubi, record_impact, register_land
+report_settlement, list_settlements
 
 ## Examples
 {"op":"tools/call","name":"mint_pnft","arguments":{"bioregion":"sierra-nevada"}}

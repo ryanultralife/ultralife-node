@@ -141,6 +141,8 @@ function withPrereqs(goal: ToolCall[], snap: AgentSnapshot): ToolCall[] {
         "inspect_preprod",
         "red_team",
         "inspect_isotopes",
+        "report_settlement",
+        "list_settlements",
       ].includes(c.name),
   );
   if (needLedger && snap.status !== "ready") out.push({ name: "boot_node", args: {} });

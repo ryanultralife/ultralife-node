@@ -57,7 +57,9 @@ market / jobs / pools.
 `prove_seal`, `red_team`, `resolve_did`, `boot_node`, `create_wallet`, `mint_pnft`,
 `list_offering`, `buy_offering`, `list_job`, `bid_job`, `register_pool`,
 `delegate_ultra`, `claim_pool_rewards`, `open_hydra`, `pool_verify`,
-`claim_ubi`, `record_impact`, `register_land`.
+`claim_ubi`, `record_impact`, `register_land`, `report_settlement`, `list_settlements`.
+
+`report_settlement` is a filing log for CoopCart tax and the 50/30/20 fee split. It does not spend a validator. Do not use `record_impact` for sales tax.
 
 Each tool maps to named validators in `src/lib/protocol/contracts.ts` of
 `ultralife-node` and the `.ak` files here. No other scripts may fire.

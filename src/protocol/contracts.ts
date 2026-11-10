@@ -104,6 +104,20 @@ export const TOOL_CONTRACTS: Record<string, ToolContract> = {
     nested: [],
     requires: ["ready", "wallet", "pnft"],
   },
+  report_settlement: {
+    name: "report_settlement",
+    intent: "file-settlement",
+    scripts: [],
+    nested: [],
+    requires: [],
+  },
+  list_settlements: {
+    name: "list_settlements",
+    intent: "read",
+    scripts: [],
+    nested: [],
+    requires: [],
+  },
   presale_isotope: {
     name: "presale_isotope",
     intent: "presale-isotope",

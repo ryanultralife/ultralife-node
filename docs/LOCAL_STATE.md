@@ -31,6 +31,7 @@ Shard state so txs do not collide.
 | Genesis seal | Reference-only NFT + out-ref. Cannot be spent. |
 | UBI distributor | Observed, not spent. Mint ULTRA against the pNFT + bioregion ref. |
 | High-frequency chatter | Hydra head per bioregion. Still terminates at a pNFT. Paid in ULTRA. |
+| CoopCart tax filing | `report_settlement` on the node. Not a UTxO. Does not move ADA. |
 
 A singleton `MARKET` UTxO that every `list` spends is a **bug**. Do not reintroduce it.
 
